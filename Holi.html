@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Special Holi Surprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        *, *:before, *:after {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+        }
+        
+        button, input {
+            user-select: none;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #e5e7eb 100%);
+            touch-action: none;
+            transition: filter 2.5s ease-in-out;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3Cfilter id='shadow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='1' dy='2' stdDeviation='1' flood-opacity='0.3'/%3E%3C/filter%3E%3C/defs%3E%3Cg transform='rotate(-45 15 15)' filter='url(%23shadow)'%3E%3Crect x='10' y='14' width='14' height='18' rx='4' fill='%23FF4500' stroke='%23333' stroke-width='1.5'/%3E%3Cpath d='M14 32 L14 38 A 2 2 0 0 0 18 38 L18 32 Z' fill='%23333'/%3E%3Cpath d='M20 20 L24 20 L24 26' fill='none' stroke='%23333' stroke-width='2'/%3E%3Crect x='12' y='2' width='6' height='12' fill='%23FFD700' stroke='%23333' stroke-width='1.5'/%3E%3Crect x='13' y='-2' width='4' height='4' fill='%2300FFFF' stroke='%23333' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E") 15 0, auto;
+        }
+
+        .grayscale-theme {
+            filter: grayscale(100%);
+        }
+
+        .scene-sun {
+            position: absolute;
+            top: 5%;
+            right: 8%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at center, #ffffff 20%, #FFD700 60%, rgba(255, 215, 0, 0) 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px 30px rgba(255, 223, 0, 0.6);
+            z-index: 0;
+            animation: sunPulse 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes sunPulse {
+            0% { transform: scale(1); box-shadow: 0 0 60px 30px rgba(255, 223, 0, 0.6); }
+            100% { transform: scale(1.1); box-shadow: 0 0 90px 40px rgba(255, 223, 0, 0.8); }
+        }
+
+        .scene-clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .cloud {
+            fill: #ffffff;
+            opacity: 0.8;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            animation: floatCloud linear infinite;
+        }
+
+        @keyframes floatCloud {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(100vw); }
+        }
+
+        .scene-trees {
+            position: absolute;
+            top: 10%;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .scene-wall {
+            position: absolute;
+            top: 30%;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            z-index: 2;
+            background-color: #a48c7c; 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' viewBox='0 0 120 60'%3E%3Cdefs%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='%239c8c74'/%3E%3Crect x='0' y='0' width='58' height='26' fill='%23d4a373'/%3E%3Crect x='62' y='0' width='58' height='26' fill='%23bc6c25'/%3E%3Crect x='0' y='30' width='28' height='26' fill='%23dda15e'/%3E%3Crect x='32' y='30' width='58' height='26' fill='%23a65d57'/%3E%3Crect x='94' y='30' width='26' height='26' fill='%23dda15e'/%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.2' style='mix-blend-mode: multiply'/%3E%3Cpath d='M0 0h58v2H0zM62 0h58v2H62zM0 30h28v2H0zM32 30h58v2H32zM94 30h26v2H94z' fill='white' opacity='0.3'/%3E%3Cpath d='M0 24h58v2H0zM62 24h58v2H62zM0 54h28v2H0zM32 54h58v2H32zM94 54h26v2H94z' fill='black' opacity='0.3'/%3E%3C/svg%3E");
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .scene-wall::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent 30%, rgba(0,0,0,0.5));
+            pointer-events: none;
+        }
+        
+        .scene-wall::before {
+            content: '';
+            position: absolute;
+            top: -24px;
+            left: -1%;
+            width: 102%;
+            height: 24px;
+            background: #e6ccb2;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='transparent' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+            border-bottom: 5px solid #a38568;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            z-index: 3;
+        }
+
+        .scene-foreground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35%; 
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        #colorCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            cursor: inherit;
+            touch-action: none;
+            transition: z-index 0.5s; /* Smooth transition for layering */
+        }
+
+        #contentLayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .content-block {
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            padding: 1rem;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: auto;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.4);
+            display: none;
+        }
+
+        .content-block.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        h1, h2 {
+            color: #ffffff;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        p {
+            color: #f0fdf4;
+            font-weight: 600;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 30;
+            pointer-events: auto;
+        }
+
+        /* --- Reverted Next Button Styles --- */
+        .btn-next {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at center, #fff 35%, transparent 36%),
+                conic-gradient(from 0deg, 
+                    #ff0055 0deg 30deg, #ffdd00 30deg 60deg, 
+                    #00ccff 60deg 90deg, #6200ea 90deg 120deg, 
+                    #ff0055 120deg 150deg, #ffdd00 150deg 180deg, 
+                    #00ccff 180deg 210deg, #6200ea 210deg 240deg, 
+                    #ff0055 240deg 270deg, #ffdd00 270deg 300deg, 
+                    #00ccff 300deg 330deg, #6200ea 330deg 360deg
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #fff;
+            box-shadow: 
+                0 0 0 3px #ff0055, 
+                0 0 0 6px #fff,
+                0 10px 20px rgba(0,0,0,0.5);
+            color: #d81b60;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 800;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 50;
+            padding: 0;
+            text-shadow: none;
+            white-space: nowrap;
+        }
+
+        .btn-next::before {
+            content: '';
+            position: absolute;
+            top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border-radius: 50%;
+            border: 2px dashed #fff;
+            animation: spin-slow 20s linear infinite;
+            pointer-events: none;
+        }
+
+        .btn-next::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+        
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-next:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 0 3px #ffdd00, 
+                0 0 0 6px #fff,
+                0 15px 30px rgba(0,0,0,0.6);
+        }
+
+        .btn-next:active {
+            transform: scale(0.95);
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatUp linear forwards;
+            z-index: 15;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 48px;
+            border-radius: 50%;
+            z-index: 100;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2), 2px 5px 5px rgba(0,0,0,0.2);
+            pointer-events: none;
+            transform-origin: center;
+        }
+        
+        .balloon-knot {
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 10px solid;
+        }
+
+        .easel-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -45%);
+            z-index: 15;
+            pointer-events: auto;
+        }
+
+        .easel-svg {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 400px;
+            z-index: -1; 
+            pointer-events: none;
+        }
+
+        .polaroid-frame {
+            background-color: #fff;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-radius: 2px;
+            display: inline-block;
+            position: relative;
+            width: 260px;
+            max-width: 70vw; 
+            transform: rotate(-2deg); 
+        }
+        
+        .polaroid-img-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            background-color: #f0f0f0;
+            border: 1px solid #eee;
+        }
+
+        .polaroid-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none; 
+        }
+
+        #scratchPad {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        
+        .polaroid-caption {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #444;
+            text-shadow: none;
+        }
+
+        .reveal-message {
+            position: absolute;
+            top: calc(50% + 375px);
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: transparent; 
+            padding: 20px 10px;
+            text-align: center;
+            z-index: 100;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 400px;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .reveal-message.show {
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        .reveal-message h3 {
+            color: #ff4081;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .reveal-message p {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.9; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+
+        .shayari-text { font-size: 2rem; color: #fff; text-shadow: 0 3px 6px rgba(0,0,0,0.9); }
+        .wish-text { font-size: 1.8rem; color: #fff; text-shadow: 0 3px 6px rgba(0,0,0,0.9); }
+        
+        .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            .scene-wall { top: 25%; height: 50%; }
+            .scene-trees { top: 5%; }
+            .shayari-text { font-size: 1.6rem; }
+            .wish-text { font-size: 1.4rem; }
+            .btn-next { width: 70px; height: 70px; font-size: 1.2rem; }
+            .scene-sun { width: 60px; height: 60px; right: 5%; top: 5%; }
+            .scene-clouds { height: 30%; }
+            .polaroid-frame { width: 220px; padding-bottom: 40px; } 
+            .easel-svg { width: 250px; height: 350px; }
+            .reveal-message { top: calc(50% + 350px); }
+        }
+    </style>
+</head>
+<body class="grayscale-theme" oncontextmenu="return false;">
+
+    <div class="scene-sun"></div>
+
+    <div class="scene-clouds">
+        <svg width="100%" height="100%" viewBox="0 0 1000 300" preserveAspectRatio="none">
+            <path class="cloud" d="M50 80 Q 70 50 100 60 T 150 80 T 180 80 L 50 80" style="animation-duration: 45s; animation-delay: 0s;" transform="translate(0, 20) scale(1.5)"/>
+            <path class="cloud" d="M300 120 Q 320 90 350 100 T 400 120 T 430 120 L 300 120" style="animation-duration: 55s; animation-delay: -20s;" transform="translate(0, 10) scale(1.2)"/>
+            <path class="cloud" d="M600 60 Q 620 30 650 40 T 700 60 T 730 60 L 600 60" style="animation-duration: 50s; animation-delay: -10s;" transform="translate(0, 30) scale(1.8)"/>
+            <path class="cloud" d="M850 100 Q 870 70 900 80 T 950 100 T 980 100 L 850 100" style="animation-duration: 60s; animation-delay: -30s;"/>
+        </svg>
+    </div>
+
+    <div class="scene-trees">
+        <svg width="100%" height="100%" viewBox="0 0 1000 500" preserveAspectRatio="none">
+            <path d="M150 500 L160 300 L180 300 L190 500 Z" fill="#8B4513"/>
+            <path d="M450 500 L460 320 L480 320 L490 500 Z" fill="#8B4513"/>
+            <path d="M850 500 L860 280 L880 280 L890 500 Z" fill="#8B4513"/>
+            
+            <circle cx="170" cy="280" r="60" fill="#228B22" />
+            <circle cx="130" cy="300" r="50" fill="#228B22" />
+            <circle cx="210" cy="300" r="50" fill="#228B22" />
+            <circle cx="170" cy="240" r="50" fill="#32CD32" />
+
+            <circle cx="470" cy="300" r="70" fill="#228B22" />
+            <circle cx="420" cy="330" r="60" fill="#228B22" />
+            <circle cx="520" cy="330" r="60" fill="#228B22" />
+            <circle cx="470" cy="250" r="60" fill="#32CD32" />
+
+            <circle cx="870" cy="260" r="70" fill="#228B22" />
+            <circle cx="820" cy="290" r="60" fill="#228B22" />
+            <circle cx="920" cy="290" r="60" fill="#228B22" />
+            <circle cx="870" cy="210" r="60" fill="#32CD32" />
+        </svg>
+    </div>
+
+    <div class="scene-wall"></div>
+
+    <div class="scene-foreground">
+        <svg width="100%" height="100%" viewBox="0 0 1000 350" preserveAspectRatio="xMidYMax slice">
+            <defs>
+                <filter id="grassNoise">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" />
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="linear" slope="0.1" />
+                        <feFuncG type="linear" slope="0.1" />
+                        <feFuncB type="linear" slope="0.1" />
+                    </feComponentTransfer>
+                    <feComposite operator="in" in2="SourceGraphic" result="texture" />
+                    <feBlend mode="multiply" in="texture" in2="SourceGraphic" />
+                </filter>
+                <linearGradient id="groundGradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#3A5F0B" />
+                    <stop offset="100%" stop-color="#1A2F05" />
+                </linearGradient>
+            </defs>
+            
+            <path d="M-50 350 Q 50 220 150 350 T 350 350 Q 450 180 550 350 T 850 350 Q 950 200 1050 350 Z" fill="#1E330A" filter="url(#grassNoise)" opacity="0.9"/>
+            <path d="M0 350 Q 100 250 200 350 T 500 350 Q 650 280 800 350 T 1000 350 Z" fill="#2d4a10" filter="url(#grassNoise)"/>
+            <path d="M0 300 L 10 290 L 15 300 L 25 285 L 35 300 L 50 290 L 60 300 L 70 280 L 85 300 L 100 290 L 110 300 L 130 285 L 140 300 L 160 295 L 170 300 L 190 280 L 200 300 L 220 290 L 230 300 L 250 285 L 260 300 L 280 295 L 290 300 L 310 280 L 320 300 L 340 290 L 350 300 L 370 285 L 380 300 L 400 295 L 410 300 L 430 280 L 440 300 L 460 290 L 470 300 L 490 285 L 500 300 L 520 295 L 530 300 L 550 280 L 560 300 L 580 290 L 590 300 L 610 285 L 620 300 L 640 295 L 650 300 L 670 280 L 680 300 L 700 290 L 710 300 L 730 285 L 740 300 L 760 295 L 770 300 L 790 280 L 800 300 L 820 290 L 830 300 L 850 285 L 860 300 L 880 295 L 890 300 L 910 280 L 920 300 L 940 290 L 950 300 L 970 285 L 980 300 L 1000 295 V 350 H 0 Z" fill="url(#groundGradient)" filter="url(#grassNoise)"/>
+        </svg>
+    </div>
+
+    <canvas id="colorCanvas"></canvas>
+    <div id="particles" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 15; pointer-events:none;"></div>
+
+    <div id="easelContainer" class="easel-wrapper">
+        <svg class="easel-svg" viewBox="0 0 200 300" preserveAspectRatio="none">
+            <line x1="100" y1="50" x2="100" y2="300" stroke="#5D4037" stroke-width="5" />
+            <line x1="100" y1="50" x2="40" y2="300" stroke="#8B4513" stroke-width="8" stroke-linecap="round"/>
+            <line x1="100" y1="50" x2="160" y2="300" stroke="#8B4513" stroke-width="8" stroke-linecap="round"/>
+            <rect x="30" y="200" width="140" height="10" fill="#5D4037" rx="2"/>
+            <rect x="95" y="40" width="10" height="20" fill="#5D4037" />
+        </svg>
+
+        <div class="polaroid-frame">
+            <div class="polaroid-img-container">
+                <img src="Juhi1.jpg" onerror="this.src='https://placehold.co/400x500/ffecb3/8b4513?text=Ju.jpg'" alt="A special memory" class="polaroid-img">
+                <canvas id="scratchPad"></canvas>
+            </div>
+            <div class="polaroid-caption">A Surprise!</div>
+        </div>
+    </div>
+
+    <div id="contentLayer">
+        
+        <div id="page1" class="content-block active" style="padding-top: 0; margin-bottom: 450px;">
+            <h2 class="text-3xl font-bold text-white mb-6" style="text-shadow: 2px 2px 4px #000;">Scratch to Reveal</h2>
+            
+            <div id="revealMsg" class="reveal-message">
+                <h3>Meet the person who colored the whole world</h3>
+            </div>
+        </div>
+
+        <div id="page2" class="content-block">
+            <h1 class="text-4xl md:text-6xl mb-4" style="text-shadow: 3px 3px 0px #000;">Hey You</h1>
+            <p class="mb-6">Now that the world is colorful...</p>
+            
+            <p class="mt-4 text-sm font-light uppercase tracking-widest">Tap anywhere to splash color</p>
+            <button id="gulalBtn" class="bg-pink-500 text-white font-bold py-2 px-4 rounded-full mt-6 shadow-lg hover:bg-pink-600 transition transform hover:scale-105 active:scale-95 pointer-events-auto" onclick="splashOnPhoto(event)">
+                🎨 Splash Color on Photo
+            </button>
+        </div>
+
+        <div id="page3" class="content-block">
+            <p id="shayariText" class="shayari-text handwritten mb-4" style="min-height: 200px;"></p>
+        </div>
+
+        <div id="page4" class="content-block">
+            <h2 class="text-3xl font-bold text-yellow-300 mb-6" style="text-shadow: 2px 2px 4px #000;">My Wish For You</h2>
+            <p class="wish-text handwritten">
+                May your life be as colorful as the painting we just made together. 
+                May every day bring a new shade of happiness, success, and love.
+            </p>
+        </div>
+
+        <div id="page5" class="content-block">
+            <h1 class="text-6xl md:text-8xl font-extrabold mb-4 handwritten" style="
+                color: transparent; 
+                -webkit-text-stroke: 2px white;
+                background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff); 
+                -webkit-background-clip: text;
+                background-clip: text;
+                filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+                line-height: 1.1;">
+                Happy<br>Holi!
+            </h1>
+            <button onclick="location.reload()" class="mt-8 text-white hover:text-yellow-300 underline font-bold text-lg">Replay Surprise</button>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button id="nextBtn" class="btn-next" style="display: none;">Next</button>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) {
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+                return false;
+            }
+             if(e.ctrlKey && e.keyCode == 'A'.charCodeAt(0)) {
+                return false;
+            }
+        }
+        
+        document.ondragstart = function() { return false; };
+        
+        document.onselectstart = function() { return false; };
+
+        function getRandomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            return `hsla(${hue}, 85%, 55%, 0.9)`;
+        }
+
+        let currentPage = 0;
+        const totalPages = 5;
+        let typingTimeout; 
+        let isScratched = false;
+
+        const shayariLines = [
+            "\"Rangon ki varsha, gulal ki phuar,",
+            "Suraj ki kirne, khushiyon ki bauchar.",
+            "Chandan ki khushbu, apno ka pyar,",
+            "Mubarak ho aapko Holi ka tyohar.\""
+        ];
+
+        function initScratchCard() {
+            const scratchCanvas = document.getElementById('scratchPad');
+            const sCtx = scratchCanvas.getContext('2d', { willReadFrequently: true });
+            
+            const rect = scratchCanvas.getBoundingClientRect();
+            let width = Math.floor(rect.width);
+            let height = Math.floor(rect.height);
+            
+            if (width === 0 || height === 0) {
+                 width = 260; 
+                 height = 325;
+            }
+            
+            scratchCanvas.width = width;
+            scratchCanvas.height = height;
+
+            sCtx.fillStyle = '#CCCCCC';
+            sCtx.fillRect(0, 0, width, height);
+            
+            sCtx.fillStyle = '#666';
+            sCtx.font = 'bold 20px Poppins';
+            sCtx.textAlign = 'center';
+            sCtx.fillText('Scratch Me!', width/2, height/2);
+
+            let isDrawing = false;
+
+            function getPos(e) {
+                const rect = scratchCanvas.getBoundingClientRect();
+                let clientX, clientY;
+                if(e.changedTouches) {
+                    clientX = e.changedTouches[0].clientX;
+                    clientY = e.changedTouches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function scratch(e) {
+                if (!isDrawing) return;
+                
+                if (e.cancelable) e.preventDefault();
+                
+                const pos = getPos(e);
+                
+                sCtx.globalCompositeOperation = 'destination-out';
+                sCtx.beginPath();
+                sCtx.arc(pos.x, pos.y, 25, 0, Math.PI * 2); 
+                sCtx.fill();
+                
+                checkScratchCompletion();
+            }
+
+            scratchCanvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+            scratchCanvas.addEventListener('mousemove', scratch);
+            scratchCanvas.addEventListener('mouseup', () => isDrawing = false);
+            
+            scratchCanvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+            scratchCanvas.addEventListener('touchmove', scratch);
+            scratchCanvas.addEventListener('touchend', () => isDrawing = false);
+
+            function checkScratchCompletion() {
+                if(isScratched) return;
+                
+                const w = scratchCanvas.width;
+                const h = scratchCanvas.height;
+                
+                if (w <= 0 || h <= 0) return;
+
+                try {
+                    const imageData = sCtx.getImageData(0, 0, w, h);
+                    const pixels = imageData.data;
+                    let transparentPixels = 0;
+                    const len = pixels.length;
+                    
+                    for (let i = 3; i < len; i += 16) { 
+                        if (pixels[i] === 0) transparentPixels++;
+                    }
+                    
+                    const totalChecked = len / 16;
+                    const percentage = (transparentPixels / totalChecked) * 100;
+                    
+                    if (percentage > 40) { 
+                        isScratched = true;
+                        document.body.classList.remove('grayscale-theme');
+                        scratchCanvas.style.opacity = '0'; 
+                        scratchCanvas.style.transition = 'opacity 1s';
+                        
+                        // Bring the splash canvas forward so it covers the photo
+                        document.getElementById('colorCanvas').style.zIndex = '16';
+
+                        setTimeout(() => {
+                            scratchCanvas.style.display = 'none';
+                            document.getElementById('revealMsg').classList.add('show'); 
+                        }, 500);
+                        
+                        document.getElementById('nextBtn').style.display = 'flex';
+                    }
+                } catch(e) {
+                    console.error("Scratch error:", e);
+                }
+            }
+        }
+
+        function typeShayari() {
+            const el = document.getElementById('shayariText');
+            el.innerHTML = '';
+            
+            const cursor = `<span style="display: inline-block; vertical-align: middle; margin-left: 8px;">
+                <svg height="40" width="50" viewBox="0 0 60 30" style="transform: rotate(-15deg); drop-shadow(2px 2px 2px rgba(0,0,0,0.3));">
+                    <defs>
+                        <linearGradient id="pichkariGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#FFD700" />
+                            <stop offset="50%" stop-color="#FF4500" />
+                            <stop offset="100%" stop-color="#8B0000" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="0" y="5" width="10" height="20" fill="#333" rx="2" />
+                    <rect x="8" y="8" width="35" height="14" fill="url(#pichkariGrad)" rx="3" />
+                    <rect x="43" y="11" width="5" height="8" fill="#333" />
+                    <path d="M50 15 L60 15" stroke="#00FFFF" stroke-width="2" stroke-dasharray="2,2">
+                         <animate attributeName="stroke-dashoffset" from="4" to="0" dur="0.2s" repeatCount="indefinite" />
+                    </path>
+                </svg>
+            </span>`;
+
+            let accumulatedText = "";
+            let lineIdx = 0;
+            let charIdx = 0;
+            
+            clearTimeout(typingTimeout);
+
+            function typeChar() {
+                if (lineIdx < shayariLines.length) {
+                    const currentLine = shayariLines[lineIdx];
+                    
+                    if (charIdx < currentLine.length) {
+                        accumulatedText += currentLine.charAt(charIdx);
+                        el.innerHTML = accumulatedText + cursor;
+                        charIdx++;
+                        typingTimeout = setTimeout(typeChar, 50);
+                    } else {
+                        accumulatedText += '<br>';
+                        el.innerHTML = accumulatedText + cursor;
+                        lineIdx++;
+                        charIdx = 0;
+                        typingTimeout = setTimeout(typeChar, 400);
+                    }
+                } else {
+                    el.innerHTML = accumulatedText; 
+                }
+            }
+            typeChar();
+        }
+
+        const canvas = document.getElementById('colorCanvas');
+        const ctx = canvas.getContext('2d');
+        const nextBtn = document.getElementById('nextBtn');
+        const particlesContainer = document.getElementById('particles');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function throwBalloon(targetX, targetY) {
+            const color = getRandomColor();
+            
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.backgroundColor = color;
+            
+            const startX = window.innerWidth / 2 + (Math.random() * 300 - 150);
+            const startY = window.innerHeight + 60;
+            
+            balloon.style.left = startX + 'px';
+            balloon.style.top = startY + 'px';
+            
+            const knot = document.createElement('div');
+            knot.className = 'balloon-knot';
+            knot.style.borderTopColor = color;
+            balloon.appendChild(knot);
+            
+            document.body.appendChild(balloon);
+
+            const deltaX = targetX - startX - 20;
+            const deltaY = targetY - startY - 24;
+            
+            const anim = balloon.animate([
+                { transform: `translate(0, 0) scale(1) rotate(0deg)` },
+                { transform: `translate(${deltaX}px, ${deltaY}px) scale(0.6) rotate(${Math.random() * 90 - 45}deg)` }
+            ], {
+                duration: 400,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            });
+            
+            anim.onfinish = () => {
+                balloon.remove();
+                createSplash(targetX, targetY, color);
+            };
+        }
+
+        function createSplash(x, y, color) {
+            const radius = Math.random() * 35 + 25; 
+            
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            
+            const points = 8 + Math.floor(Math.random() * 5);
+            for (let i = 0; i <= points; i++) {
+                const angle = (i / points) * Math.PI * 2;
+                const r = radius + (Math.random() * 25 - 12.5);
+                const px = x + Math.cos(angle) * r;
+                const py = y + Math.sin(angle) * r;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.fill();
+
+            const droplets = 8 + Math.floor(Math.random() * 12);
+            for (let i = 0; i < droplets; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = radius + Math.random() * 50;
+                const size = Math.random() * 6 + 2;
+                
+                ctx.beginPath();
+                ctx.arc(
+                    x + Math.cos(angle) * distance, 
+                    y + Math.sin(angle) * distance, 
+                    size, 0, Math.PI * 2
+                );
+                ctx.fill();
+            }
+        }
+        
+        // New function to handle splashing specifically on the photo
+        function splashOnPhoto(e) {
+            e.stopPropagation(); // Prevent global click
+            const img = document.querySelector('.polaroid-img');
+            if(img) {
+                const rect = img.getBoundingClientRect();
+                // Pick a random spot inside the image
+                const x = rect.left + 20 + Math.random() * (rect.width - 40);
+                const y = rect.top + 20 + Math.random() * (rect.height - 40);
+                throwBalloon(x, y);
+            }
+        }
+
+        function handleInteraction(e) {
+            if(e.target.id === 'scratchPad') return;
+
+            let x, y;
+            if(e.type === 'touchstart') {
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+            } else {
+                x = e.clientX;
+                y = e.clientY;
+            }
+            
+            if (y < window.innerHeight * 0.3) return;
+
+            throwBalloon(x, y);
+        }
+
+        window.addEventListener('mousedown', (e) => {
+            if (e.target.tagName !== 'BUTTON') handleInteraction(e);
+        });
+        window.addEventListener('touchstart', (e) => {
+            if (e.target.tagName !== 'BUTTON') handleInteraction(e);
+        });
+
+        function showPage(index) {
+            for (let i = 1; i <= totalPages; i++) {
+                const page = document.getElementById(`page${i}`);
+                page.classList.remove('active');
+                setTimeout(() => {
+                    if(!page.classList.contains('active')) page.classList.add('hidden');
+                }, 500); 
+            }
+
+            const newPage = document.getElementById(`page${index + 1}`);
+            newPage.classList.remove('hidden');
+            setTimeout(() => {
+                newPage.classList.add('active');
+            }, 50);
+
+            if (index === 2) {
+                setTimeout(typeShayari, 100);
+            }
+
+            if (index === 4) {
+                startConfetti();
+                nextBtn.style.display = 'none';
+            } else {
+                stopCreativeEffect();
+                nextBtn.style.display = 'flex';
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        let particleInterval;
+        function startCreativeEffect() {
+        }
+
+        function stopCreativeEffect() {
+            if (particleInterval) clearInterval(particleInterval);
+            particlesContainer.innerHTML = '';
+        }
+
+        function startConfetti() {
+            let count = 0;
+            const isSmallScreen = window.innerWidth <= 600;
+            
+            const maxCount = isSmallScreen ? 35 : 120;
+
+            const burst = setInterval(() => {
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                const color = getRandomColor();
+                createSplash(x, y, color);
+                count++;
+                if(count > maxCount) clearInterval(burst);
+            }, 50);
+        }
+
+        for(let i=2; i<=totalPages; i++) {
+            document.getElementById(`page${i}`).classList.add('hidden');
+        }
+        
+        window.onload = function() {
+            initScratchCard();
+        };
+    </script>
+</body>
+</html>
