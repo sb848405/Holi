@@ -125,6 +125,10 @@
             z-index: 3;
         }
 
+        .wall-green-strap {
+            display: none;
+        }
+
         .scene-foreground {
             position: absolute;
             bottom: 0;
@@ -133,6 +137,26 @@
             height: 35%; 
             z-index: 3;
             pointer-events: none;
+            overflow: hidden;
+        }
+
+        .grass-layer {
+            transform-origin: bottom center;
+        }
+
+        .grass-back {
+            animation: sway 5s ease-in-out infinite alternate;
+        }
+        .grass-mid {
+            animation: sway 4s ease-in-out infinite alternate-reverse;
+        }
+        .grass-front {
+            animation: sway 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes sway {
+            0% { transform: skewX(0deg); }
+            100% { transform: skewX(2deg); }
         }
 
         #colorCanvas {
@@ -144,7 +168,7 @@
             z-index: 10;
             cursor: inherit;
             touch-action: none;
-            transition: z-index 0.5s; /* Smooth transition for layering */
+            transition: z-index 0.5s;
         }
 
         #contentLayer {
@@ -209,7 +233,6 @@
             pointer-events: auto;
         }
 
-        /* --- Reverted Next Button Styles --- */
         .btn-next {
             position: relative;
             width: 90px;
@@ -433,7 +456,17 @@
         .hidden { display: none !important; }
 
         @media (max-width: 600px) {
-            .scene-wall { top: 25%; height: 50%; }
+            .scene-wall { top: 25%; height: 65%; }
+            .wall-green-strap {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 12px;
+                background: #2d4a0a;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+            }
             .scene-trees { top: 5%; }
             .shayari-text { font-size: 1.6rem; }
             .wish-text { font-size: 1.4rem; }
@@ -443,10 +476,15 @@
             .polaroid-frame { width: 220px; padding-bottom: 40px; } 
             .easel-svg { width: 250px; height: 350px; }
             .reveal-message { top: calc(50% + 350px); }
+            .scene-foreground { height: 60%; } 
         }
     </style>
 </head>
 <body class="grayscale-theme" oncontextmenu="return false;">
+
+    <audio id="bgAudio" loop preload="auto">
+        <source src="Pichkari.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="scene-sun"></div>
 
@@ -482,7 +520,9 @@
         </svg>
     </div>
 
-    <div class="scene-wall"></div>
+    <div class="scene-wall">
+        <div class="wall-green-strap"></div>
+    </div>
 
     <div class="scene-foreground">
         <svg width="100%" height="100%" viewBox="0 0 1000 350" preserveAspectRatio="xMidYMax slice">
@@ -498,15 +538,15 @@
                     <feComposite operator="in" in2="SourceGraphic" result="texture" />
                     <feBlend mode="multiply" in="texture" in2="SourceGraphic" />
                 </filter>
-                <linearGradient id="groundGradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stop-color="#3A5F0B" />
-                    <stop offset="100%" stop-color="#1A2F05" />
+                <linearGradient id="grassGradientFront" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#4a7c10" />
+                    <stop offset="100%" stop-color="#2d4a0a" />
                 </linearGradient>
             </defs>
-            
-            <path d="M-50 350 Q 50 220 150 350 T 350 350 Q 450 180 550 350 T 850 350 Q 950 200 1050 350 Z" fill="#1E330A" filter="url(#grassNoise)" opacity="0.9"/>
-            <path d="M0 350 Q 100 250 200 350 T 500 350 Q 650 280 800 350 T 1000 350 Z" fill="#2d4a10" filter="url(#grassNoise)"/>
-            <path d="M0 300 L 10 290 L 15 300 L 25 285 L 35 300 L 50 290 L 60 300 L 70 280 L 85 300 L 100 290 L 110 300 L 130 285 L 140 300 L 160 295 L 170 300 L 190 280 L 200 300 L 220 290 L 230 300 L 250 285 L 260 300 L 280 295 L 290 300 L 310 280 L 320 300 L 340 290 L 350 300 L 370 285 L 380 300 L 400 295 L 410 300 L 430 280 L 440 300 L 460 290 L 470 300 L 490 285 L 500 300 L 520 295 L 530 300 L 550 280 L 560 300 L 580 290 L 590 300 L 610 285 L 620 300 L 640 295 L 650 300 L 670 280 L 680 300 L 700 290 L 710 300 L 730 285 L 740 300 L 760 295 L 770 300 L 790 280 L 800 300 L 820 290 L 830 300 L 850 285 L 860 300 L 880 295 L 890 300 L 910 280 L 920 300 L 940 290 L 950 300 L 970 285 L 980 300 L 1000 295 V 350 H 0 Z" fill="url(#groundGradient)" filter="url(#grassNoise)"/>
+            <rect x="0" y="335" width="1000" height="15" fill="#152905" />
+            <path id="grassBack" class="grass-layer grass-back" fill="#1e3a08" filter="url(#grassNoise)" />
+            <path id="grassMid" class="grass-layer grass-mid" fill="#2d5208" filter="url(#grassNoise)" />
+            <path id="grassFront" class="grass-layer grass-front" fill="url(#grassGradientFront)" filter="url(#grassNoise)" />
         </svg>
     </div>
 
@@ -542,12 +582,12 @@
         </div>
 
         <div id="page2" class="content-block">
-            <h1 class="text-4xl md:text-6xl mb-4" style="text-shadow: 3px 3px 0px #000;">Hey You</h1>
-            <p class="mb-6">Now that the world is colorful...</p>
+            <h1 class="text-4xl md:text-6xl mb-4" style="text-shadow: 3px 3px 0px #000;"></h1>
+            <p class="mb-6"></p>
             
-            <p class="mt-4 text-sm font-light uppercase tracking-widest">Tap anywhere to splash color</p>
+            <p class="mt-4 text-sm font-light uppercase tracking-widest"></p>
             <button id="gulalBtn" class="bg-pink-500 text-white font-bold py-2 px-4 rounded-full mt-6 shadow-lg hover:bg-pink-600 transition transform hover:scale-105 active:scale-95 pointer-events-auto" onclick="splashOnPhoto(event)">
-                🎨 Splash Color on Photo
+                🎨 Happy Holi Juhiiii(Click Me)
             </button>
         </div>
 
@@ -558,8 +598,14 @@
         <div id="page4" class="content-block">
             <h2 class="text-3xl font-bold text-yellow-300 mb-6" style="text-shadow: 2px 2px 4px #000;">My Wish For You</h2>
             <p class="wish-text handwritten">
-                May your life be as colorful as the painting we just made together. 
-                May every day bring a new shade of happiness, success, and love.
+                On this beautiful festival of colors,
+                I wish your life is filled with endless happiness.
+                May every shade of Holi bring you success, peace, and love.
+                May your smile shine brighter than every color in the sky.
+                May your dreams bloom like spring flowers.
+                May laughter follow you wherever you go.
+                And may this Holi bring you moments so special,
+                That your heart feels as colorful as you make mine.
             </p>
         </div>
 
@@ -574,7 +620,6 @@
                 line-height: 1.1;">
                 Happy<br>Holi!
             </h1>
-            <button onclick="location.reload()" class="mt-8 text-white hover:text-yellow-300 underline font-bold text-lg">Replay Surprise</button>
         </div>
 
     </div>
@@ -617,6 +662,24 @@
         
         document.onselectstart = function() { return false; };
 
+        let hasAudioStarted = false;
+        function playBackgroundAudio() {
+            if (!hasAudioStarted) {
+                const audio = document.getElementById('bgAudio');
+                if (audio) {
+                    audio.play().then(() => {
+                        hasAudioStarted = true;
+                    }).catch(error => {
+                        console.log("Audio play failed or blocked by browser:", error);
+                    });
+                }
+            }
+        }
+
+        window.addEventListener('mousedown', playBackgroundAudio);
+        window.addEventListener('touchstart', playBackgroundAudio);
+        window.addEventListener('keydown', playBackgroundAudio);
+
         function getRandomColor() {
             const hue = Math.floor(Math.random() * 360);
             return `hsla(${hue}, 85%, 55%, 0.9)`;
@@ -628,10 +691,14 @@
         let isScratched = false;
 
         const shayariLines = [
-            "\"Rangon ki varsha, gulal ki phuar,",
-            "Suraj ki kirne, khushiyon ki bauchar.",
-            "Chandan ki khushbu, apno ka pyar,",
-            "Mubarak ho aapko Holi ka tyohar.\""
+            "Among all colors, yours is the one I see,",
+            "Holi feels brighter when you’re there.",
+            "The world plays colors, laughs, and moves away,",
+            "My heart pauses when you smile my way.",
+            "Gulal may fade by the end of the day,",
+            "But the mark you leave will forever stay.",
+            "This Holi, if wishes were allowed to be true,",
+            "I’d wish every color would fall on you."
         ];
 
         function initScratchCard() {
@@ -659,6 +726,7 @@
             sCtx.fillText('Scratch Me!', width/2, height/2);
 
             let isDrawing = false;
+            let lastX, lastY;
 
             function getPos(e) {
                 const rect = scratchCanvas.getBoundingClientRect();
@@ -676,6 +744,18 @@
                 };
             }
 
+            function startPosition(e) {
+                isDrawing = true;
+                const pos = getPos(e);
+                lastX = pos.x;
+                lastY = pos.y;
+                scratch(e);
+            }
+
+            function endPosition() {
+                isDrawing = false;
+            }
+
             function scratch(e) {
                 if (!isDrawing) return;
                 
@@ -684,20 +764,30 @@
                 const pos = getPos(e);
                 
                 sCtx.globalCompositeOperation = 'destination-out';
+                sCtx.lineWidth = 50;
+                sCtx.lineCap = 'round';
+                sCtx.lineJoin = 'round';
+                
                 sCtx.beginPath();
-                sCtx.arc(pos.x, pos.y, 25, 0, Math.PI * 2); 
-                sCtx.fill();
+                sCtx.moveTo(lastX, lastY);
+                sCtx.lineTo(pos.x, pos.y);
+                sCtx.stroke();
+                
+                lastX = pos.x;
+                lastY = pos.y;
                 
                 checkScratchCompletion();
             }
 
-            scratchCanvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+            scratchCanvas.addEventListener('mousedown', startPosition);
             scratchCanvas.addEventListener('mousemove', scratch);
-            scratchCanvas.addEventListener('mouseup', () => isDrawing = false);
+            scratchCanvas.addEventListener('mouseup', endPosition);
+            scratchCanvas.addEventListener('mouseleave', endPosition);
             
-            scratchCanvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
-            scratchCanvas.addEventListener('touchmove', scratch);
-            scratchCanvas.addEventListener('touchend', () => isDrawing = false);
+            scratchCanvas.addEventListener('touchstart', startPosition, { passive: false });
+            scratchCanvas.addEventListener('touchmove', scratch, { passive: false });
+            scratchCanvas.addEventListener('touchend', endPosition);
+            scratchCanvas.addEventListener('touchcancel', endPosition);
 
             function checkScratchCompletion() {
                 if(isScratched) return;
@@ -726,7 +816,6 @@
                         scratchCanvas.style.opacity = '0'; 
                         scratchCanvas.style.transition = 'opacity 1s';
                         
-                        // Bring the splash canvas forward so it covers the photo
                         document.getElementById('colorCanvas').style.zIndex = '16';
 
                         setTimeout(() => {
@@ -876,13 +965,11 @@
             }
         }
         
-        // New function to handle splashing specifically on the photo
         function splashOnPhoto(e) {
-            e.stopPropagation(); // Prevent global click
+            e.stopPropagation(); 
             const img = document.querySelector('.polaroid-img');
             if(img) {
                 const rect = img.getBoundingClientRect();
-                // Pick a random spot inside the image
                 const x = rect.left + 20 + Math.random() * (rect.width - 40);
                 const y = rect.top + 20 + Math.random() * (rect.height - 40);
                 throwBalloon(x, y);
@@ -894,15 +981,27 @@
 
             let x, y;
             if(e.type === 'touchstart') {
-                x = e.touches[0].clientX;
-                y = e.touches[0].clientY;
+                if (e.touches && e.touches.length > 0) {
+                    x = e.touches[0].clientX;
+                    y = e.touches[0].clientY;
+                } else {
+                    return;
+                }
             } else {
                 x = e.clientX;
                 y = e.clientY;
             }
             
-            if (y < window.innerHeight * 0.3) return;
+            // Check if user is clicking ON the photo frame area (if so, we ignore the manual tap)
+            const photoFrame = document.querySelector('.polaroid-frame');
+            if (photoFrame) {
+                const rect = photoFrame.getBoundingClientRect();
+                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                    return; // Ignore splashes on the photo area
+                }
+            }
 
+            // User can tap everywhere else freely!
             throwBalloon(x, y);
         }
 
@@ -976,9 +1075,45 @@
         for(let i=2; i<=totalPages; i++) {
             document.getElementById(`page${i}`).classList.add('hidden');
         }
+
+        function generateGrassPath(width, height, density, maxHeight, minHeight) {
+            let d = `M0 ${height}`;
+            let x = 0;
+            while (x < width) {
+                const bladeWidth = Math.random() * 5 + 3;
+                const bladeHeight = Math.random() * (maxHeight - minHeight) + minHeight;
+                const tipX = x + bladeWidth / 2 + (Math.random() * 10 - 5);
+                
+                d += ` L ${x} ${height}`; 
+                d += ` Q ${x + bladeWidth * 0.3} ${height - bladeHeight * 0.6} ${tipX} ${height - bladeHeight}`;
+                d += ` Q ${x + bladeWidth * 0.7} ${height - bladeHeight * 0.6} ${x + bladeWidth} ${height}`;
+                
+                x += (bladeWidth - 1) / density; 
+            }
+            d += ` L ${width} ${height} Z`;
+            return d;
+        }
+
+        function generateGrassLayers() {
+             const width = 1000;
+             const baseHeight = 350;
+             const isSmall = window.innerWidth < 600;
+             const scale = isSmall ? 1.8 : 1; 
+             const density = isSmall ? 1.2 : 1;
+
+             const backPath = generateGrassPath(width, baseHeight, density, 140 * scale, 80 * scale);
+             document.getElementById('grassBack').setAttribute('d', backPath);
+
+             const midPath = generateGrassPath(width, baseHeight, density, 90 * scale, 50 * scale);
+             document.getElementById('grassMid').setAttribute('d', midPath);
+
+             const frontPath = generateGrassPath(width, baseHeight, density, 50 * scale, 20 * scale);
+             document.getElementById('grassFront').setAttribute('d', frontPath);
+        }
         
         window.onload = function() {
             initScratchCard();
+            generateGrassLayers();
         };
     </script>
 </body>

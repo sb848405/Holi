@@ -128,7 +128,7 @@
 
         #story-display {
             position: absolute;
-            top: 5%; /* Higher on mobile to avoid fire overlap */
+            top: 5%; 
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
@@ -175,7 +175,7 @@
 <body>
 
     <audio id="bgAudio" loop>
-        <source src="Aud.mp3" type="audio/mpeg">
+        <source src="Bade_Ache_lagte_hai.mp3" type="audio/mpeg">
     </audio>
 
     <div class="cinematic-bar top-bar" id="top-bar"></div>
@@ -216,7 +216,6 @@
         </svg>
     </div>
 
-    <!-- Couple Owls - Responsive Sizing and Positioning -->
     <svg viewBox="0 0 260 140" class="absolute top-[12%] -left-4 w-48 md:w-64 md:top-[15%] md:-left-5 z-[4] pointer-events-none">
         <path d="M0,110 Q80,120 220,80" stroke="#271c19" stroke-width="7" fill="none" stroke-linecap="round" />
         <path d="M70,105 Q70,80 60,70" stroke="#271c19" stroke-width="3" fill="none" stroke-linecap="round" />
@@ -386,23 +385,33 @@
 
         const storySequence = [
             {
-                title: "I. The Gathering",
-                text: "We gather dry leaves to build a shelter for things we wish to leave behind—ego, sadness, distance.",
+                title: "🦋 The Gathering",
+                textSmall: "We gather dry leaves to leave behind past and sadness.",
+                textLarge: "We gather dry leaves like fragments of old seasons, stacking them carefully with the memories, the doubts, and the quiet weight we are ready to release to the fire.",
                 color: "text-orange-200"
             },
             {
-                title: "II. The Realization",
-                text: "But as I watch the pile grow, I don't think of what I'm leaving. I think of what I'm moving towards.",
+                title: "💭 The Realization",
+                textSmall: "The fire just stays steady long enough to change the darkness. Just like how you fight alone",
+                textLarge: "The fire doesn’t argue with the dark. It just stays steady long enough to change it. Just like how I want to be steady for you, no matter the distance or time.",
                 color: "text-orange-100"
             },
             {
-                title: "III. The Spark",
-                text: "The fire burns for tradition. But tonight, my heart burns for you.",
+                title: "❤️‍🔥 The Spark",
+                textSmall: "The flames rise for tradition. Mine rise when you smile.",
+                textLarge: "The flames fight the night for a few hours. You fight your battles every day and you rise against everything that tries to dim you.",
+                color: "text-rose-200"
+            },
+            {
+                title: "🌠 The Wish",
+                textSmall: "Maybe someday, I can help turn your bad days into softer ones.",
+                textLarge: "Maybe someday, when your battles feel heavier than usual, I can quietly stand beside you and help turn even your hardest days into something softer and easier to breathe through.",
                 color: "text-rose-200"
             },
             {
                 title: "Make a Wish",
-                text: "Legend says the fire carries wishes to the heavens. <br>Happy Nara Pora. ❤️",
+                textSmall: "Fire carries your wishes.<br>Happy Nara Pora. ❤️",
+                textLarge: "May the universe remember you’re the main character, reduce unnecessary plot twists, and upgrade your storyline to premium happiness.(May the universe give all my the happiness & good times to you🙂) <br>Happy Nara Pora. ❤️",
                 color: "text-amber-100",
                 isLast: true
             }
@@ -421,10 +430,14 @@
                 
                 const slide = document.createElement('div');
                 slide.className = 'story-slide';
+                
                 slide.innerHTML = `
                     <h2 class="text-3xl md:text-4xl script-font mb-4 ${chapter.color}">${chapter.title}</h2>
-                    <p class="text-lg md:text-xl leading-relaxed font-light italic text-gray-200">
-                        "${chapter.text}"
+                    <p class="text-lg md:text-xl leading-relaxed font-light italic text-gray-200 block md:hidden">
+                        ${chapter.textSmall}
+                    </p>
+                    <p class="text-lg md:text-xl leading-relaxed font-light italic text-gray-200 hidden md:block">
+                        ${chapter.textLarge}
                     </p>
                 `;
                 storyDisplay.appendChild(slide);
@@ -472,4 +485,3 @@
     </script>
 </body>
 </html>
-
